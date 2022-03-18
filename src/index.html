@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tomahawk</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body class="smoky">
+    <span>T</span><span>O</span><span>M</span><span></span><span>A</span><span>H</span><span>A</span><span>W</span><span>K</span>
+    <div class="input-block">
+      <textarea type="text" id="url"></textarea>
+      <div>
+        <div class="row"> 
+          <label for="tor">Enable Tor proxy</label>
+          <input type="checkbox" id="tor">
+        </div>
+        <div class="row">
+          <label for="threads">Count of threads</label>
+          <input type="number" max="4" min="1" id="threads" value="1">
+        </div>
+        <div class="row">
+          <a href="#id" id="send" class="flipper-container">
+            <div id="id" class="flipper">
+              <div class="front-face" ><div data-hover="Clicked">Attack</div></div>
+              <div class="back-face">😈</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="input-block">
+      <ul id="logs"></ul>
+    </div>
+    <script defer src="./renderer.js"></script>
+  </body>
+</html>
