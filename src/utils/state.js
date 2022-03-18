@@ -1,4 +1,4 @@
-const state = {}
+const state = {};
 
 module.exports = {
     setState({ url, success }) {
@@ -6,10 +6,10 @@ module.exports = {
         else {
             state[url] = {
                 ...state[url],
-                [success]: 1
-            }
+                [success] : 1
+            };
         }
 
         return state;
     }
-}
+};
