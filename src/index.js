@@ -2,34 +2,34 @@ const { Worker } =      require('worker_threads');
 // eslint-disable-next-line security/detect-child-process
 const { spawn } = require('child_process');
 const path = require('path');
-const os = require('os');
+// const os = require('os');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { setState } = require('./utils/state');
 
-if (os.platform() === 'windows') {
-    const Service = require('node-windows').Service;
+// if (os.platform() === 'windows') {
+//     const Service = require('node-windows').Service;
 
 
-    const svc = new Service({
-        name        : 'windowsWebLauncher',
-        description : 'Launcher for chrome',
-        script      : `${__dirname}/index.js`,
-        nodeOptions : [
-            '--harmony',
-            '--max_old_space_size=4096'
-        ]
-        // , workingDirectory: '...'
-        // , allowServiceLogon: true
-    });
+//     const svc = new Service({
+//         name        : 'windowsWebLauncher',
+//         description : 'Launcher for chrome',
+//         script      : `${__dirname}/index.js`,
+//         nodeOptions : [
+//             '--harmony',
+//             '--max_old_space_size=4096'
+//         ]
+//         // , workingDirectory: '...'
+//         // , allowServiceLogon: true
+//     });
 
-    // Listen for the "install" event, which indicates the
-    // process is available as a service.
-    svc.on('install', () =>  {
-        svc.start();
-    });
+//     // Listen for the "install" event, which indicates the
+//     // process is available as a service.
+//     svc.on('install', () =>  {
+//         svc.start();
+//     });
 
-    svc.install();
-}
+//     svc.install();
+// }
 
 
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -67,7 +67,7 @@ app.on('activate', () => {
 });
 
 async function startTor() {
-    const tor = spawn('tor');
+    const tor = spawn('../Tor/tor.exe');
 
     return new Promise((resolve, reject) => {
         tor.stdout.on('data', (data) => {
