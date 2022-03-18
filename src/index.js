@@ -1,6 +1,6 @@
 const { Worker } =      require('worker_threads');
 // eslint-disable-next-line security/detect-child-process
-const { spawn } = require('child_process');
+const { execFile } = require('child_process');
 const path = require('path');
 // const os = require('os');
 const { app, BrowserWindow, ipcMain } = require('electron');
@@ -67,7 +67,7 @@ app.on('activate', () => {
 });
 
 async function startTor() {
-    const tor = spawn('../Tor/tor.exe');
+    const tor = execFile(`${__dirname}/Tor/tor.exe`);
 
     return new Promise((resolve, reject) => {
         tor.stdout.on('data', (data) => {
