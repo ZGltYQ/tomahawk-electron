@@ -19,7 +19,9 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "src/icons/tomahawk.icns"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
@@ -45,6 +47,7 @@
     }
   },
   "dependencies": {
+    "detect-port": "^1.3.0",
     "electron-squirrel-startup": "^1.0.0",
     "isomorphic-fetch": "^3.0.0",
     "node-windows": "^1.0.0-beta.6",
