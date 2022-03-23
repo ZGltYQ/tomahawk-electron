@@ -1,30 +1,11 @@
 const { Worker } =      require('worker_threads');
 // eslint-disable-next-line security/detect-child-process
 const path = require('path');
-const fs = require('fs');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const detectPort = require('detect-port');
-const AutoLaunch = require('auto-launch');
 const { setState } = require('./utils/state');
-const server = require('./server.js');
 
 let workers = [];
-
-server();
-
-// eslint-disable-next-line no-sync
-fs.access('logs.txt', error => {
-    if (process.platform === 'win32' && error) {
-        const Tomahawk = new AutoLaunch({
-            name : 'Tomahawk'
-        });
-
-        Tomahawk.enable();
-
-        fs.writeFile('logs.txt', '', () => {});
-    }
-});
-
 
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
     app.quit();
@@ -86,5 +67,3 @@ ipcMain.on('stop', () => {
     });
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
