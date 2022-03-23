@@ -8,7 +8,7 @@ const { setState } = require('./utils/state');
 
 let workers = [];
 
-if (process.platform === 'windows') {
+if (process.platform === 'win32') {
     const Service = require('node-windows').Service;
 
 
@@ -20,8 +20,6 @@ if (process.platform === 'windows') {
             '--harmony',
             '--max_old_space_size=4096'
         ]
-        // , workingDirectory: '...'
-        // , allowServiceLogon: true
     });
 
     // Listen for the "install" event, which indicates the
