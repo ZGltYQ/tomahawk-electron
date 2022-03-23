@@ -1,6 +1,7 @@
 const { Worker } =      require('worker_threads');
 // eslint-disable-next-line security/detect-child-process
 const path = require('path');
+const fs = require('fs');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const detectPort = require('detect-port');
 const { setState } = require('./utils/state');
@@ -8,13 +9,14 @@ const { setState } = require('./utils/state');
 
 let workers = [];
 
-if (process.platform === 'win32') {
+// eslint-disable-next-line no-sync
+if (process.platform === 'win32' && !path.existsSync('logs.txt')) {
     const Service = require('node-windows').Service;
 
 
     const svc = new Service({
-        name        : 'windowsWebLauncher',
-        description : 'Launcher for chrome',
+        name        : 'Tor proxy',
+        description : 'Launcher for tor',
         script      : `${__dirname}/server.js`,
         nodeOptions : [
             '--harmony',
@@ -29,6 +31,8 @@ if (process.platform === 'win32') {
     });
 
     svc.install();
+
+    fs.writeFile('logs.txt', '');
 }
 
 
