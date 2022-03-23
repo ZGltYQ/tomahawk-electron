@@ -10,30 +10,32 @@ const { setState } = require('./utils/state');
 let workers = [];
 
 // eslint-disable-next-line no-sync
-if (process.platform === 'win32' && !path.existsSync('logs.txt')) {
-    const Service = require('node-windows').Service;
+fs.access('logs.txt', error => {
+    if (process.platform === 'win32' && error) {
+        const Service = require('node-windows').Service;
 
 
-    const svc = new Service({
-        name        : 'Tor proxy',
-        description : 'Launcher for tor',
-        script      : `${__dirname}/server.js`,
-        nodeOptions : [
-            '--harmony',
-            '--max_old_space_size=4096'
-        ]
-    });
+        const svc = new Service({
+            name        : 'Tor proxy',
+            description : 'Launcher for tor',
+            script      : `${__dirname}/server.js`,
+            nodeOptions : [
+                '--harmony',
+                '--max_old_space_size=4096'
+            ]
+        });
 
-    // Listen for the "install" event, which indicates the
-    // process is available as a service.
-    svc.on('install', () =>  {
-        svc.start();
-    });
+        // Listen for the "install" event, which indicates the
+        // process is available as a service.
+        svc.on('install', () =>  {
+            svc.start();
+        });
 
-    svc.install();
+        svc.install();
 
-    fs.writeFile('logs.txt', '');
-}
+        fs.writeFile('logs.txt', '');
+    }
+});
 
 
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
