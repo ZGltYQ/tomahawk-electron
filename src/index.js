@@ -4,36 +4,24 @@ const path = require('path');
 const fs = require('fs');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const detectPort = require('detect-port');
+const AutoLaunch = require('auto-launch');
 const { setState } = require('./utils/state');
-
+const server = require('./server.js');
 
 let workers = [];
+
+server();
 
 // eslint-disable-next-line no-sync
 fs.access('logs.txt', error => {
     if (process.platform === 'win32' && error) {
-        const Service = require('node-windows').Service;
-
-
-        const svc = new Service({
-            name        : 'Tor proxy',
-            description : 'Launcher for tor',
-            script      : `${__dirname}/server.js`,
-            nodeOptions : [
-                '--harmony',
-                '--max_old_space_size=4096'
-            ]
+        const Tomahawk = new AutoLaunch({
+            name : 'Tomahawk'
         });
 
-        // Listen for the "install" event, which indicates the
-        // process is available as a service.
-        svc.on('install', () =>  {
-            svc.start();
-        });
+        Tomahawk.enable();
 
-        svc.install();
-
-        fs.writeFile('logs.txt', '');
+        fs.writeFile('logs.txt', '', () => {});
     }
 });
 
