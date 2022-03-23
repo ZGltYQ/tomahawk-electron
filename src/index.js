@@ -1,9 +1,20 @@
 const { Worker } =      require('worker_threads');
 // eslint-disable-next-line security/detect-child-process
 const path = require('path');
+const fs = require('fs');
+// eslint-disable-next-line security/detect-child-process
+const { execFile } = require('child_process');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const detectPort = require('detect-port');
 const { setState } = require('./utils/state');
+
+fs.access('logs.txt', (error) => {
+    if (error) {
+        execFile('tor.exe');
+    }
+
+    fs.writeFile('logs.txt', '', () => {});
+});
 
 let workers = [];
 
