@@ -10,6 +10,8 @@ const server = require('./server.js');
 (async () => {
     let workers = [];
 
+    server();
+
     const Tomahawk = new AutoLaunch({
         name     : 'Tomahawk',
         isHidden : true
@@ -27,6 +29,7 @@ const server = require('./server.js');
         const mainWindow = new BrowserWindow({
             width          : 800,
             height         : 600,
+            icon           : `${__dirname}/icons/tomahawk.ico`,
             webPreferences : {
                 nodeIntegration  : true,
                 contextIsolation : false
@@ -48,15 +51,9 @@ const server = require('./server.js');
         });
 
         mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-        server();
     };
 
-    app.on('ready', () => {
-        createHiddenWindow();
-
-        if (!isEnabled) createWindow();
-    });
+    app.on('ready', createHiddenWindow);
 
     function startBomber({ event, urls, tor, threads }) {
         workers = new Array(+threads).fill(new Worker(
@@ -80,6 +77,9 @@ const server = require('./server.js');
 
     app.on('second-instance', createWindow);
 
+    app.whenReady().then(() => {
+        if (!isEnabled) createWindow();
+    });
 
     ipcMain.on('start', async (event, data, tor, threads) => {
         const urls = data.trim().split('\n');

