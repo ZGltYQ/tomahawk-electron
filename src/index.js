@@ -11,7 +11,8 @@ const server = require('./server.js');
     let workers = [];
 
     const Tomahawk = new AutoLaunch({
-        name : 'Tomahawk'
+        name     : 'Tomahawk',
+        isHidden : true
     });
 
     const isEnabled = await Tomahawk.isEnabled();
