@@ -10,8 +10,6 @@ const server = require('./server.js');
 (async () => {
     let workers = [];
 
-    server();
-
     const Tomahawk = new AutoLaunch({
         name : 'Tomahawk'
     });
@@ -49,9 +47,19 @@ const server = require('./server.js');
         });
 
         mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+        server();
     };
 
-    app.on('ready', createHiddenWindow);
+    app.on('ready', () => {
+        createHiddenWindow();
+
+        if (!isEnabled) createWindow();
+    });
+
+    app.on('second-instance', () => {
+        createWindow();
+    });
 
     function startBomber({ event, urls, tor, threads }) {
         workers = new Array(+threads).fill(new Worker(
@@ -68,7 +76,7 @@ const server = require('./server.js');
     });
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length < 2) {
+        if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
         }
     });
