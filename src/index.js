@@ -10,6 +10,8 @@ const server = require('./server.js');
 (async () => {
     let workers = [];
 
+    server();
+
     const Tomahawk = new AutoLaunch({
         name : 'Tomahawk'
     });
@@ -57,10 +59,6 @@ const server = require('./server.js');
         if (!isEnabled) createWindow();
     });
 
-    app.on('second-instance', () => {
-        createWindow();
-    });
-
     function startBomber({ event, urls, tor, threads }) {
         workers = new Array(+threads).fill(new Worker(
             `${__dirname}/bomber.js`,
@@ -80,6 +78,8 @@ const server = require('./server.js');
             createWindow();
         }
     });
+
+    app.on('second-instance', createWindow);
 
 
     ipcMain.on('start', async (event, data, tor, threads) => {
