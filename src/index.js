@@ -10,8 +10,6 @@ const server = require('./server.js');
 (async () => {
     let workers = [];
 
-    server();
-
     const Tomahawk = new AutoLaunch({
         name : 'Tomahawk'
     });
