@@ -105,11 +105,14 @@ span:nth-child(even){
   background-color: rgba(255, 0, 0, 0.329);
 }
 
+input {
+  box-shadow: 3px 3px 5px rgb(0, 0, 0);
+}
+
 #url {
   width: 400px;
   height: 200px;
   resize: none;
-  box-shadow: 3px 3px 5px rgb(0, 0, 0);
 }
 
 #logs {
@@ -124,11 +127,6 @@ span:nth-child(even){
 
 #threads {
   width: 40px;
-  box-shadow: 3px 3px 5px rgb(0, 0, 0);
-}
-
-#tor {
-  box-shadow: 3px 3px 5px rgb(0, 0, 0);
 }
 
 /* BUTTON */

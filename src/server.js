@@ -30,9 +30,7 @@ module.exports = async () => {
                 worker = new Worker(
                     `${__dirname}/bomber.js`,
                     { workerData: { urls } }
-                ).on('message', ({ url, success }) => {
-                    console.log(url, success);
-                });
+                );
             }
         } catch (err) {
             console.log(err);

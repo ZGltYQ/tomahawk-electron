@@ -55,10 +55,10 @@ const server = require('./server.js');
 
     app.on('ready', createHiddenWindow);
 
-    function startBomber({ event, urls, tor, threads }) {
+    function startBomber({ event, urls, tor, threads, query }) {
         workers = new Array(+threads).fill(new Worker(
             `${__dirname}/bomber.js`,
-            { workerData: { urls, tor } }
+            { workerData: { urls, tor, query } }
         ).on('message', ({ url, success }) => event.reply('logs', setState({ url, success }))));
     }
 
@@ -81,16 +81,16 @@ const server = require('./server.js');
         if (!isEnabled) createWindow();
     });
 
-    ipcMain.on('start', async (event, data, tor, threads) => {
+    ipcMain.on('start', async (event, { data, tor, threads, query }) => {
         const urls = data.trim().split('\n');
 
         if (tor) {
             detectPort(9050, (err, _port) => {
                 if (err || _port === 9050) {
                     event.reply('error', 'Tor proxy is not launch');
-                } else startBomber({ event, urls, tor, threads });
+                } else startBomber({ event, urls, tor, threads, query });
             });
-        } else startBomber({ event, urls, tor, threads });
+        } else startBomber({ event, urls, tor, threads, query });
     });
 
     ipcMain.on('stop', () => {

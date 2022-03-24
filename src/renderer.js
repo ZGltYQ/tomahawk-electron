@@ -6,13 +6,14 @@ const tor = document.getElementById('tor');
 const threads = document.getElementById('threads');
 const logs = document.getElementById('logs');
 const stop = document.getElementById('stop');
+const query = document.getElementById('query');
 
 setTimeout(() => {
     document.querySelector('body').classList.remove('smoky');
 }, 2000);
 
 send.addEventListener('click', () => {
-    ipc.send('start', input.value, tor.checked, threads.value);
+    ipc.send('start', { data: input.value, tor: tor.checked, threads: threads.value, query: query.checked });
 });
 
 stop.addEventListener('click', () => {
@@ -35,5 +36,6 @@ ipc.on('logs', (event, data) => {
 });
 
 ipc.on('error', (event, error) => {
+    // eslint-disable-next-line no-alert
     alert(error);
 });

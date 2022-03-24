@@ -4,15 +4,16 @@ const {
 const proxy =           require('tor-request');
 const request =         require('request');
 const randomUseragent = require('random-useragent');
+const generateRandomQuery = require('./utils/randomQuery');
 
-const { urls, tor } = workerData;
+const { urls, tor, query } = workerData;
 
 
 if (tor) {
     setInterval(() => {
         urls.forEach(url => {
             proxy.request({
-                url,
+                url     : query ? generateRandomQuery(url) : url,
                 method  : 'GET',
                 headers : {
                     'User-Agent' : randomUseragent.getRandom()
@@ -27,7 +28,7 @@ if (tor) {
     setInterval(() => {
         urls.forEach(url => {
             request({
-                url,
+                url     : query ? generateRandomQuery(url) : url,
                 method  : 'GET',
                 headers : {
                     'User-Agent' : randomUseragent.getRandom()

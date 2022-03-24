@@ -52,6 +52,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "isomorphic-fetch": "^3.0.0",
     "random-useragent": "^0.5.0",
+    "randomstring": "^1.2.2",
     "request": "^2.88.2",
     "tor-request": "^3.1.0"
   },
