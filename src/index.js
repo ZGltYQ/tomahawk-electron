@@ -5,9 +5,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const detectPort = require('detect-port');
 const AutoLaunch = require('auto-launch');
 const { setState } = require('./utils/state');
+const server = require('./server.js');
 
 (async () => {
     let workers = [];
+
+    server();
 
     const Tomahawk = new AutoLaunch({
         name     : 'Tomahawk',
